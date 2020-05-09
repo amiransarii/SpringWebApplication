@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans  
+    xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xmlns:p="http://www.springframework.org/schema/p"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans   
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">  
+  
+<!-- <bean id="ds" class="org.springframework.jdbc.datasource.DriverManagerDataSource">  
+<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />  
+<property name="url" value="jdbc:mysql://localhost/spring_web_app_db?serverTimezone=UTC" />  
+<property name="username" value="root" />  
+<property name="password" value="" />  
+</bean>  
+  
+<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">  
+<property name="dataSource" ref="ds"></property>  
+</bean>  
+  
+<bean id="edao" class="org.spring.dao.EmployeeJdbcDao">  
+<property name="jdbcTemplate" ref="jdbcTemplate"></property>  
+</bean>   -->
+ 
+ 
+ <!-- This is for named parameter -->
+ <!-- <bean id="jtemplate"   
+ class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">  
+<constructor-arg ref="ds"></constructor-arg>  
+</bean>  
+
+<bean id="edao1" class="org.spring.dao.EmployeeJdbcDao">  
+<constructor-arg>  
+<ref bean="jtemplate"/>  
+</constructor-arg>  
+</bean>   -->
+<!-- This is for named parameter end-->
+
+
+
+<!-- This xml code is for Hibernate Template -->
+ <!-- start -->
+ <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">  
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />  
+        <property name="url" value="jdbc:mysql://localhost/spring_web_app_db?serverTimezone=UTC" />  
+        <property name="username" value="root" />  
+        <property name="password" value="" />  
+    </bean>  
+      
+    <bean id="mysessionFactory"  class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">  
+        <property name="dataSource" ref="dataSource"></property>  
+          
+        <property name="mappingResources">  
+        <list>  
+        <value>employee.hbm.xml</value>  
+        </list>  
+        </property>  
+          
+        <property name="hibernateProperties">  
+            <props>  
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</prop>  
+                <prop key="hibernate.hbm2ddl.auto">update</prop>  
+                <prop key="hibernate.show_sql">true</prop>  
+                  
+            </props>  
+        </property>  
+    </bean>  
+      
+    <bean id="template" class="org.springframework.orm.hibernate5.HibernateTemplate">  
+    <property name="sessionFactory" ref="mysessionFactory"></property>  
+    </bean>  
+    
+    
+<bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager"> 
+     <property name="sessionFactory" ref="mysessionFactory" /> 
+</bean> 
+    
+      
+    <bean id="d" class="org.spring.dao.EmployeeHibernateDao">  
+    <property name="template" ref="template"></property>  
+    </bean>  
+      
+ <!-- end  -->
+
+
+
+  
+</beans>  
